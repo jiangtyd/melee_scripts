@@ -2,6 +2,9 @@ from bs4 import BeautifulSoup as BS
 import requests
 import csv
 import re
+import numpy as np
+import matplotlib.pyplot as plt
+import itertools
 
 URLS_FILE = "urls.txt"
 
@@ -20,26 +23,25 @@ headers = [ "Sponsor(s)",
             "CEO 2014",
             "EVO 2014",
             "TBH4" ]
-def get_ranking_csv(outfilename):
+def save_ranking_csv(outfilename):
     global headers
     urls = []
     with open(URLS_FILE, "r") as fin:
         for l in fin:
             urls.append(l.strip())
 
-    output = get_rankings(urls)
+    data = get_rankings(urls)
     
     with open(outfilename, "w") as fout:
         writer = csv.writer(fout, delimiter=',')
         writer.writerow(headers)
-        for row in output:
+        for row in data:
             writer.writerow(row)
 
+    return data
+
 def get_rankings(urls):
-    output = []
-    for url in urls:
-        output.extend(get_rankings_for_url(url))
-    return output
+    return list(itertools.chain(*[get_rankings_for_url(url) for url in urls]))
 
 def get_rankings_for_url(url):
     print 'get_rankings(url): ' + str(url)
@@ -91,13 +93,33 @@ def parse_rankings_page(html):
             twitter, rank, previous_rank, mains, region, rating]
         player_parsed.extend([results[t] for t in tourneys])
         player_parsed = [i.replace(u'\xa0', ' ') for i in player_parsed]
+
         print player_parsed
         ret.append(player_parsed)
 
     return ret
 
+def scatter_plot_ranking_vs_rating(data, fname):
+    global headers
+    ranking_idx = headers.index("2014 Rank")
+    rating_idx = headers.index("Rating")
+
+    rankings = np.array([int(row[ranking_idx]) for row in data])
+    ratings = np.array([float(row[rating_idx]) for row in data])
+
+    fig = plt.figure()
+    ax = fig.add_subplot(111)
+
+    ax.set_xlabel("Rank")
+    ax.set_ylabel("Rating")
+    ax.scatter(rankings, ratings)
+    plt.show()
+
+    fig.savefig(fname, orientation="landscape")
+
 def main():
-    get_ranking_csv("rankings.csv")
+    data = save_ranking_csv("rankings.csv")
+    scatter_plot_ranking_vs_rating(data, "ranking_vs_rating.png")
 
 if __name__ == "__main__":
     main()
