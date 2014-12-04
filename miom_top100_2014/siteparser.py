@@ -1,6 +1,6 @@
 from bs4 import BeautifulSoup as BS
 import requests
-import csv
+import unicodecsv
 import re
 import numpy as np
 import matplotlib.pyplot as plt
@@ -33,7 +33,7 @@ def save_ranking_csv(outfilename):
     data = get_rankings(urls)
     
     with open(outfilename, "w") as fout:
-        writer = csv.writer(fout, delimiter=',')
+        writer = unicodecsv.UnicodeWriter(fout, delimiter=',')
         writer.writerow(headers)
         for row in data:
             writer.writerow(row)
@@ -62,7 +62,7 @@ def parse_rankings_page(html):
     ret = []
     for tbody in tbodies:
         rows = tbody.select("tr")
-        player_info = list(rows[0].select("td")[1].strong.strings)
+        player_info = [i for i in rows[0].select("td")[1].strings if len(i) > 1]
 
         twitter = player_info[-1] if len(player_info) > 1 else ""
 
