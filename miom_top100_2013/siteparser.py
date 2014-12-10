@@ -64,13 +64,13 @@ def parse_rankings_page(html):
         first, tag, last = [i.strip() for i in re.split(quotes, name_and_tag)]
 
         rank = rows[1].select("td")[0].text.strip("(Ttie) ")
-        region = rows[1].select("td")[2].text.strip()
+        mains = rows[1].select("td")[2].text.strip()
         rating = rows[1].select("td")[3].text.strip()
         # MIOM pls why can't you give Mango a real numerical rating
         if rating == "1o":
             rating = "10"
 
-        mains = rows[2].select("td")[1].text.strip()
+        region = rows[2].select("td")[1].text.strip()
 
         results = {}
 
