@@ -64,13 +64,19 @@ def parse_rankings_page(html):
         first, tag, last = [i.strip() for i in re.split(quotes, name_and_tag)]
 
         rank = rows[1].select("td")[0].text.strip("(Ttie) ")
-        mains = rows[1].select("td")[2].text.strip()
         rating = rows[1].select("td")[3].text.strip()
         # MIOM pls why can't you give Mango a real numerical rating
         if rating == "1o":
             rating = "10"
 
+        # MIOM pls why did you switch these for the top 10...
+        mains = rows[1].select("td")[2].text.strip()
         region = rows[2].select("td")[1].text.strip()
+        if int(rank) <= 10:
+            # swap them
+            tmp = mains
+            mains = region
+            region = tmp
 
         results = {}
 
@@ -88,8 +94,8 @@ def scatter_plot_ranking_vs_rating(data, fname):
     ranking_idx = headers.index("2013 Rank")
     rating_idx = headers.index("Rating")
 
-    rankings = np.array([int(row[ranking_idx]) for row in data])
-    ratings = np.array([float(row[rating_idx]) for row in data])
+    rankings = list(reversed(range(1, 101)))
+    ratings = sorted([float(row[rating_idx]) for row in data])
 
     fig = plt.figure()
     ax = fig.add_subplot(111)
