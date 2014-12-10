@@ -112,10 +112,11 @@ def scatter_plot_ranking_vs_rating(data, fname):
 
     ax.set_xlabel("Rank")
     ax.set_ylabel("Rating")
+    ax.grid(b=True, which='major', color='gray', linestyle='--')
     ax.scatter(rankings, ratings)
     plt.show()
 
-    fig.savefig(fname, orientation="landscape")
+    fig.savefig(fname, orientation="landscape", dpi=100)
 
 def main():
     data = save_ranking_csv("rankings.csv")
