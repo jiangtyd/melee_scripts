@@ -15,6 +15,7 @@ headers = [ "Sponsor(s)",
             "Twitter", 
             "2014 Rank", 
             "2013 Rank", 
+            "Change in Rank",
             "Main(s)", 
             "Region", 
             "Rating",
@@ -80,6 +81,16 @@ def parse_rankings_page(html):
 
         rank = rows[1].select("td")[0].text.strip()
         previous_rank = rows[1].select("td")[1].text.strip()
+
+        previous_rank_numstr = previous_rank.strip('() ')
+        rank_delta_str = 'N/A'
+        if previous_rank_numstr.isdigit():
+            rank_delta = int(previous_rank_numstr) - int(rank)
+            if rank_delta >= 0:
+                rank_delta_str = "+" + str(rank_delta)
+            else:
+                rank_delta_str = str(rank_delta)
+
         mains = rows[1].select("td")[3].text.strip()
         region = rows[1].select("td")[5].text.strip()
 
@@ -90,7 +101,7 @@ def parse_rankings_page(html):
             results[tourneys[i]] = rows[4].select("td")[i].text.strip()
 
         player_parsed = [sponsors, first, last, tag,
-            twitter, rank, previous_rank, mains, region, rating]
+            twitter, rank, previous_rank, rank_delta_str, mains, region, rating]
         player_parsed.extend([results[t] for t in tourneys])
         player_parsed = [i.replace(u'\xa0', ' ') for i in player_parsed]
 
