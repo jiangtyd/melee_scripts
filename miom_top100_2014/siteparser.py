@@ -59,10 +59,11 @@ def parse_rankings_page(html):
     content = soup.find("div", class_="post-content")
     tbodies = content.select("table > tbody")
 
-
     ret = []
     for tbody in tbodies:
         rows = tbody.select("tr")
+        if rows[0].select("td")[0].text != 'Rank':
+            continue
         player_info = [i for i in rows[0].select("td")[1].strings if len(i) > 1]
 
         twitter = player_info[-1] if len(player_info) > 1 else ""
