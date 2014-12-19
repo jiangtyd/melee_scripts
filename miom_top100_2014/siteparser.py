@@ -104,6 +104,7 @@ def parse_rankings_page(html):
             for i in xrange(len(tourneys)):
                 results[tourneys[i]] = rows[5].select("td")[i].text.strip()
         else:
+            mains = ', '.join(mains.split('/'))
             region = rows[1].select("td")[5].text.strip()
             rating = rows[1].select("td")[6].text.strip()
             for i in xrange(len(tourneys)):

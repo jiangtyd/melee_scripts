@@ -6,13 +6,13 @@ Game Guys,Malherbe,Oscar,Mojo,@AHotCupOfMojo,97,(NEW),N/A,Fox,Texas,6.715,-,45th
 ,Austin,Demmon,Azusa,,96,(NEW),N/A,Peach,NorCal,6.716,-,-,-,-,-
 ,Kevin,Bandel,Hyprid,,95,(97),+2,Marth,NorCal,6.721,-,-,-,25th,-
 ,Jason,Yoon,Bizzarro Flame,@Bizzarro_Flame,94,(96),+2,Ganondorf,NorCal,6.743,-,37th,-,65th,33rd
-,Connor,Nguyen,Connorthekid,@ConnorTheKid4,93,(60),-33,Fox/Peach,SoCal,6.746,-,37th,-,33rd,-
+,Connor,Nguyen,Connorthekid,@ConnorTheKid4,93,(60),-33,"Fox, Peach",SoCal,6.746,-,37th,-,33rd,-
 ,Alex,Ruvalcaba,Alex19,@mach1alex19,92,(NEW),N/A,Fox,SoCal,6.790,-,37th,-,-,-
 MeleeItOnMe,Kris,Aldenderfer,Toph,@toph_bbq,91,(95),+4,Fox,NorCal,6.791,65th,269th (D/Q),17th,97th,49th
 ,Sam,Rohrer,Laudandus,@Laudandus,90,(NEW),N/A,Sheik,NorCal,6.802,-,-,-,49th,33rd
 MeleeItOnMe,Bobby,Scarnewman,Scar,@bobbyscar,89,(62),-27,Captain Falcon,Norcal,6.809,33rd,-,33rd,49th,65th
-,Roy,Valle,Trail,,88,(89),+1,Ice Climbers/Ganondorf,Illinois,6.815,-,-,-,129th,33rd
-,Adrian,Perez,Lord HDL,,87,(NEW),N/A,Link/Marth,Puerto Rico,6.819,-,-,-,33rd,-
+,Roy,Valle,Trail,,88,(89),+1,"Ice Climbers, Ganondorf",Illinois,6.815,-,-,-,129th,33rd
+,Adrian,Perez,Lord HDL,,87,(NEW),N/A,"Link, Marth",Puerto Rico,6.819,-,-,-,33rd,-
 ,Lucien,Mayo,Lucien,,86,(49),-37,Sheik,NorCal,6.827,-,-,-,33rd,-
 ,Andrew,Vo,Tai,@TeeAyEye,85,(71),-14,Marth,Arizona,6.835,49th,-,-,65th,33rd
 ,Dustin,White,Gravy,@iaregravy,84,(NEW),N/A,Captain Falcon,Florida,6.839,-,-,-,-,17th
@@ -22,10 +22,10 @@ Apollo Games,Austin,Conley,Arc,@AG_Arc88,81,(NEW),N/A,Marth,Texas,6.892,-,25th,1
 MGFC,Timothy,Cody,Eggm,,80,(54),-26,Fox,Tri-State,6.900,65th,-,-,-,-
 ,Landon,Cox,DoH,@DeeOhAytch,79,(81),+2,Peach,MD/VA,6.922,33rd,45th,-,65th,49th
 ,Jason,Diehl,Gahtzu,@Gahtzu,78,(NEW),N/A,Captain Falcon,Florida,6.950,49th,45th,-,-,33rd
-Apex,Will,Hsiao,Reno,@RenoNY,77,(85),+8,Sheik/Fox,SoCal,6.954,65th,37th,-,65th,-
+Apex,Will,Hsiao,Reno,@RenoNY,77,(85),+8,"Sheik, Fox",SoCal,6.954,65th,37th,-,65th,-
 ,Chad,McCullough,Pikachad,@PikaChad_,76,(76),+0,Pikachu,Tennessee,6.956,-,45th,13th,49th,-
-,Brandon,Collier,HomeMadeWaffles,,75,(55),-20,Falco/Fox,NorCal,6.986,49th,-,-,65th,49th
-,Cameron,Smucker,Cyrain,@Cyrain,74,(57),-17,Fox/Falco,MD/VA,7.000,65th,-,-,33rd,-
+,Brandon,Collier,HomeMadeWaffles,,75,(55),-20,"Falco, Fox",NorCal,6.986,49th,-,-,65th,49th
+,Cameron,Smucker,Cyrain,@Cyrain,74,(57),-17,"Fox, Falco",MD/VA,7.000,65th,-,-,33rd,-
 MGFC,Marquise,Williamson,StriCNYN3,@DRIVEALIVEAPP,73,(70),-3,Falco,Tri-State,7.014,33rd,-,-,-,-
 LowLandLions,Rehman,Shafi,Remen,@Remenyan,72,(NEW),N/A,Falco,Netherlands,7.017,-,17th,-,-,-
 ,Tyler,Hankins,Hanky Panky,,71,(NEW),N/A,Peach,Ohio,7.039,-,-,-,-,17th
@@ -40,7 +40,7 @@ Versus,Elam,Ucles,Beer Man (Lambchops),,63,(NEW),N/A,Falco,Florida,7.148,-,-,-,3
 ,Anthony,Detres,Slox,@Slox_,62,(NEW),N/A,"Fox, Falcon",New England,7.148,97th,-,-,-,-
 ,Darrell,White,Darrell,@darrellsamus,61,(64),+3,Samus,NorCal,7.162,49th,-,-,33rd,49th
 ,Alan,Baretto,Excel Zero,@ExcelZeroPR,60,(NEW),N/A,Peach,Puerto Rico,7.173,25th,-,-,49th,-
-,Jaden,Carr,VaNz,,59,(36),-23,Peach/Sheik,NEOH/PGH / Tri-State,7.188,-,-,-,-,33rd
+,Jaden,Carr,VaNz,,59,(36),-23,"Peach, Sheik",NEOH/PGH / Tri-State,7.188,-,-,-,-,33rd
 Team Liquid,Ken,Hoang,Ken,@LiquidKen,58,(100),+42,Marth,SoCal,7.200,-,21st,33rd,33rd,-
 ,Rob,Schueller,OkamiBW,@OkamiBW,57,(82),+25,Sheik,SoCal,7.214,49th,21st,-,33rd,-
 MGFC,James,Liu,Swedish Delight,@LamesJiu,56,(66),+10,Sheik,Tri-state,7.222,49th,-,-,25th,-
@@ -80,12 +80,12 @@ Apex,Michael,Brancato,Nintendude,@NintendudeSSB,24,(48),+24,Ice Climbers,MD/VA,8
 VGbootcamp,Masaya,Chikamoto,aMSa,@aMSaRedyoshi,22,(77),+55,Yoshi,Japan,8.333,9th,17th,33rd,17th,-
 ,Julian,Zhu,Zhu,@Poor_Zhu,21,(18),-3,Falco,Pennsylvania,8.438,17th,21st,-,49th,25th
 MeleeItOnMe,Zac,Cordoni,SFAT,@MIOM_SFAT,20,(10),-10,Fox,Norcal,8.529,25th,29th,-,25th,17th
-,Mustafa,Akcakaya,Ice,@ice_fights,19,(13),-6,Sheik/Fox,Germany,8.553,9th,-,-,33rd,-
+,Mustafa,Akcakaya,Ice,@ice_fights,19,(13),-6,"Sheik, Fox",Germany,8.553,9th,-,-,33rd,-
 ,Johnny,Kim,S2J,@S2JFalcon,18,(19),+1,Capt. Falcon,SoCal,8.564,97th,13th,-,13th,-
 ,Shephard,Lima,Fiction,@FictionIRL,17,(31),+14,Fox,SoCal,8.565,7th,13th,7th,13th,-
 ,Justin,McGrath,Plup,@Pluplue,16,(27),+11,Samus,Florida,8.620,13th,9th,5th,9th,9th
 Gameclucks,Otto,Bisno,Silent Wolf,@SilentWolf444,15,(16),+1,Fox,Washington,8.665,13th,-,-,7th,-
-Macro Micro Gaming,DaJuan,McDaniel,Shroomed,@MMG_DocShroomed,14,(7),-7,Dr. Mario/Sheik,Norcal,8.688,13th,13th,-,17th,17th
+Macro Micro Gaming,DaJuan,McDaniel,Shroomed,@MMG_DocShroomed,14,(7),-7,"Dr. Mario, Sheik",Norcal,8.688,13th,13th,-,17th,17th
 MeleeItOnMe,Kevin,Toy,PewPewU,@MIOM_PewPewU,13,(12),-1,Marth,Norcal,8.760,13th,9th,-,9th,-
 ,Joey,Aldama,Lucky,@LegendofLucky,12,(20),+8,Fox,SoCal,8.807,17th,9th,-,17th,5th
 ,Jeremy,Westfahl,Fly Amanita,@MasterOfCaribou,11,(21),+10,Ice Climbers,SoCal,8.835,17th,29th,-,7th,-
@@ -95,7 +95,7 @@ VGBootCamp,Aziz,Al-Yami,Hax,@SSBMHax,8,(6),-2,Fox,Tri-State,9.121,17th,7th,-,13t
 Mortality,Jeffrey,Williamson,Axe,@Mortality_Axe,7,(11),+4,Pikachu,Arizona,9.128,9th,5th,-,5th,9th
 ,William,Hjelte,Leffen,@l3ff3n,6,(14),+8,Fox,Sweden,9.422,4th,5th,-,9th,3rd
 Curse,Juan,Debiedma,Hungrybox,@juanthefatty,5,(5),+0,Jigglypuff,Florida,9.622,5th,7th,3rd,2nd,9th
-,Jason,Zimmerman,Mew2King,@CT_Mew2King,4,(3),-1,Marth/Sheik/Fox,Tri-State,9.717,2nd,3rd,4th,5th,2nd
-Evil Geniuses,Kevin,Nanney,PPMD,@EG_PPMD,3,(4),+1,Falco/Marth,North Carolina,9.750,1st,4th,-,4th,-
+,Jason,Zimmerman,Mew2King,@CT_Mew2King,4,(3),-1,"Marth, Sheik, Fox",Tri-State,9.717,2nd,3rd,4th,5th,2nd
+Evil Geniuses,Kevin,Nanney,PPMD,@EG_PPMD,3,(4),+1,"Falco, Marth",North Carolina,9.750,1st,4th,-,4th,-
 Alliance,Adam,Lindgren,Armada,@ArmadaUGS,2,(2),+0,Peach,Sweden,9.893,-,2nd,1st,3rd,4th
 Cloud 9,Joseph,Marquez,Mango,@C9Mang0,1,(1),+0,"Fox, Falco",SoCal,10.000,3rd,1st,2nd,1st,1st
