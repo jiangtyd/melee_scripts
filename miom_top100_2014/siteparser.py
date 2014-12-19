@@ -5,6 +5,7 @@ import re
 import numpy as np
 import matplotlib.pyplot as plt
 import itertools
+import string
 
 URLS_FILE = "urls.txt"
 
@@ -61,7 +62,7 @@ def parse_rankings_page(html):
 
     ret = []
     for tbody in tbodies:
-        rows = tbody.select("tr")
+        rows = tbody.select("> tr")
         if rows[0].select("td")[0].text != 'Rank':
             continue
         player_info = [i for i in rows[0].select("td")[1].strings if len(i) > 1]
@@ -93,13 +94,21 @@ def parse_rankings_page(html):
                 rank_delta_str = str(rank_delta)
 
         mains = rows[1].select("td")[3].text.strip()
-        region = rows[1].select("td")[5].text.strip()
-
-        rating = rows[1].select("td")[6].text.strip()
-
         results = {}
-        for i in xrange(len(tourneys)):
-            results[tourneys[i]] = rows[4].select("td")[i].text.strip()
+
+        if mains == '': # Tafo why did you format #1 and 2 differently
+            print tag, "mains: ", mains, "."
+            mains = string.capwords(', '.join([img['alt'] for img in rows[1].select("td")[3].select("img")]).strip('9 '), ', ')
+            region = rows[2].select("td")[1].text.strip()
+            rating = rows[1].select("> td")[4].text.strip()
+            for i in xrange(len(tourneys)):
+                results[tourneys[i]] = rows[5].select("td")[i].text.strip()
+        else:
+            region = rows[1].select("td")[5].text.strip()
+            rating = rows[1].select("td")[6].text.strip()
+            for i in xrange(len(tourneys)):
+                results[tourneys[i]] = rows[4].select("td")[i].text.strip()
+
 
         player_parsed = [sponsors, first, last, tag,
             twitter, rank, previous_rank, rank_delta_str, mains, region, rating]
