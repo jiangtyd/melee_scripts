@@ -126,6 +126,9 @@ def get_soup(url):
   r = requests.get(url)
   return BS(r.text, "lxml")
 
+def get_character_from_url(url):
+  return url.split('/')[-1].split('.')[0]
+
 def get_players_for_tournament_page(soup, player_map):
   '''
   Parse page of tournament and build {swf name -> PlayerInfo} map
@@ -150,7 +153,7 @@ def get_players_for_tournament_page(soup, player_map):
     user_id = int(username_td.find_all("a")[-1]['href'].split('/')[1].split('.')[-1])
 
     tag = tag_td.text.strip()
-    characters = [img['title'] for img in characters_td.find_all('img')]
+    characters = [get_character_from_url(img['src']) for img in characters_td.find_all('img')]
 
     if username in player_map:
       player_map[username].add_tag(tag).add_characters(characters)
