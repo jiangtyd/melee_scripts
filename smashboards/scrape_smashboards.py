@@ -33,18 +33,18 @@ def get_base_url():
 
 ######## BEGIN PlayerInfo ########
 class PlayerInfo(object):
-  def __init__(self, swf_id, swf_name):
-    if swf_id is None or not isinstance(swf_id, int) or swf_id < 0:
-      raise ValueError("swf id should be nonnegative int")
-    self.swf_id = swf_id
-    self.set_swf_name(swf_name)
+  def __init__(self, swf_player_id, swf_player_name):
+    if swf_player_id is None or not isinstance(swf_player_id, int) or swf_player_id < 0:
+      raise ValueError("swf player id should be nonnegative int")
+    self.swf_player_id = swf_player_id
+    self.set_swf_player_name(swf_player_name)
     self.tags = set()
     self.characters = set()
 
-  def set_swf_name(self, swf_name):
-    if swf_name is None or not isinstance(swf_name, unicode) or len(swf_name) == 0:
-      raise ValueError("swf name should be nonempty unicode string")
-    self.swf_name = swf_name
+  def set_swf_player_name(self, swf_player_name):
+    if swf_player_name is None or not isinstance(swf_player_name, unicode) or len(swf_player_name) == 0:
+      raise ValueError("swf player name should be nonempty unicode string")
+    self.swf_player_name = swf_player_name
     return self
 
   def add_tag(self, tag):
@@ -58,7 +58,7 @@ class PlayerInfo(object):
       self.tags.remove(tag)
       return self
     else:
-      raise ValueError("tag {} not in list of tags for player {}".format(tag, player.swf_name))
+      raise ValueError("tag {} not in list of tags for player {}".format(tag, player.swf_player_name))
 
   def get_tags_sorted(self):
     return sorted(self.tags)
@@ -80,18 +80,18 @@ class PlayerInfo(object):
       return self
     else:
       raise ValueError("character {} not in list of characters for player {}"
-          .format(character, player.swf_name))
+          .format(character, player.swf_player_name))
 
   def get_characters_sorted(self):
     return sorted(self.characters)
 
   def __str__(self):
-    return "swf_id: {}, swf_name: {}, tags: {}, characters: {}".format(
-        self.swf_id, self.swf_name, str(self.tags), str(self.characters))
+    return "swf_player_id: {}, swf_player_name: {}, tags: {}, characters: {}".format(
+        self.swf_player_id, self.swf_player_name, str(self.tags), str(self.characters))
 
   def to_csv_row(self):
     return [
-        self.swf_id, self.swf_name, ', '.join(self.characters)
+        self.swf_player_id, self.swf_player_name, ', '.join(self.characters)
       ] + sorted(self.tags, key=lambda t: len(t))
 
 ######## END PlayerInfo ########
