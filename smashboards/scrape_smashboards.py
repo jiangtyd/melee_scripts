@@ -96,6 +96,28 @@ class PlayerInfo(object):
 
 ######## END PlayerInfo ########
 
+######## BEGIN EventInfo ########
+class Event(object):
+    def __init__(self, swf_event_id, swf_event_name, category, date_str):
+        if swf_event_id is None or not isinstance(swf_event_id, int) or swf_event_id < 0:
+          raise ValueError("swf event id should be nonnegative int")
+        self.swf_event_id = swf_event_id
+        if swf_event_name is None or not isinstance(swf_event_name, unicode) or len(swf_event_name) == 0:
+          raise ValueError("swf event name should be nonempty unicode string")
+        self.swf_event_name = swf_event_name
+        if category is None or not isinstance(category, str) or len(category) == 0:
+          raise ValueError("event category should be nonempty string")
+        self.category = category
+
+        if date_str is None or not isinstance(date_str, str) or len(date_str) == 0:
+          raise ValueError("event date should be passed in as nonempty string")
+        try:
+            self.date = date_str.strptime("%Y-%b-%d")
+        except ValueError:
+            raise ValueError("event date {} could not be parsed".format(date_str))
+
+######## END EventInfo ########
+
 # Webpage parsing
 def get_soup(url):
   ''' 
