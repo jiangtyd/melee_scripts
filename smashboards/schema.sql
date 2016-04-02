@@ -20,7 +20,7 @@ CREATE TABLE `player_tag_map` (
   CONSTRAINT `player_tag_map_ibfk1`
     FOREIGN KEY(`player_id`) REFERENCES `players` (`id`) ON DELETE CASCADE,
   CONSTRAINT `player_tag_map_ibfk2`
-    FOREIGN KEY(`tag_id`) REFERENCES `tags` (`id`) ON DELETE CASCADE,
+    FOREIGN KEY(`tag_id`) REFERENCES `tags` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB CHARACTER SET=utf8;
 
 CREATE TABLE `characters` (
@@ -39,7 +39,7 @@ CREATE TABLE `characters` (
 ) ENGINE=InnoDB CHARACTER SET=utf8;
 
 CREATE TABLE `events` (
-  `id` int(11) NOT NULL PRIMARY_KEY,
+  `id` int(11) NOT NULL PRIMARY KEY,
   `event_name` varchar(255) NOT NULL,
   `category` ENUM(
     'Premier', 'Global', 'International',
@@ -57,6 +57,6 @@ CREATE TABLE `event_to_player_tag_map` (
   CONSTRAINT `event_to_player_tag_map_ibfk1`
     FOREIGN KEY(`player_tag_map_id`) REFERENCES `player_tag_map` (`id`) ON DELETE CASCADE,
   CONSTRAINT `event_to_player_tag_map_ibfk2`
-    FOREIGN KEY(`event_id`) REFERENCES `events` (`id`) ON DELETE CASCADE,
+    FOREIGN KEY(`event_id`) REFERENCES `events` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB CHARACTER SET=utf8;
 
