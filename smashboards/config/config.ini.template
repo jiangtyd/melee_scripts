@@ -1,0 +1,5 @@
+[database]
+host=HOSTNAME
+user=USER
+password=PASSWORD
+db_name=DB_NAME
