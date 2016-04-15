@@ -1,9 +1,8 @@
 import mysql.connector
 from mysql.connector import errorcode
-from config.config import Config
+import db
 
-def create_tables(sql_file, mysql_config):
-  cnx = mysql.connector.connect(**mysql_config)
+def create_tables(sql_file, cnx):
   cursor = cnx.cursor()
   with open(sql_file, 'r') as fin:
     contents = fin.read()
@@ -22,15 +21,11 @@ def create_tables(sql_file, mysql_config):
       else:
         print("Success")
 
+  cnx.commit()
+  cursor.close()
+
 def main():
-  config = Config()
-  mysql_config = {
-    'user': config.get_db_user(),
-    'password': config.get_db_password(),
-    'host': config.get_db_host(),
-    'database': config.get_db_name()
-  }
-  create_tables('schema.sql', mysql_config)
+  create_tables('schema.sql', db.get_connection())
 
 if __name__ == '__main__':
   main()
