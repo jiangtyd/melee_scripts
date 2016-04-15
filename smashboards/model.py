@@ -4,7 +4,7 @@ class PlayerInfo(object):
       raise ValueError("swf player id should be nonnegative int")
     self.swf_player_id = swf_player_id
     self.set_swf_player_name(swf_player_name)
-    self.tags = set()
+    self.tags = dict()
     self.characters = set()
 
   def set_swf_player_name(self, swf_player_name):
@@ -13,21 +13,23 @@ class PlayerInfo(object):
     self.swf_player_name = swf_player_name
     return self
 
-  def add_tag(self, tag):
+  def add_tag(self, event_id, tag):
     if tag is None or not isinstance(tag, unicode) or len(tag) == 0:
       raise ValueError("tag should be nonempty unicode string")
-    self.tags.add(tag)
+    if event_id is None or not isinstance(event_id, int) or event_id < 0:
+      raise ValueError("swf event id should be nonnegative int")
+    self.tags[event_id] = tag
     return self
 
-  def del_tag(self, tag):
-    if tag in self.tags:
-      self.tags.remove(tag)
+  def del_tag(self, event_id):
+    if event_id in self.tags:
+      self.tags.remove(event_id)
       return self
     else:
-      raise ValueError("tag {} not in list of tags for player {}".format(tag, player.swf_player_name))
+      raise ValueError("player {} did not have a tag in event {}".format(player.swf_player_name, event_id))
 
   def get_tags_sorted(self):
-    return sorted(self.tags)
+    return sorted(self.tags.values())
 
   def add_character(self, character):
     if character is None or not isinstance(character, str) or len(character) == 0:

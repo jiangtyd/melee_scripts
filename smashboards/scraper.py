@@ -39,15 +39,17 @@ def get_soup(url):
 def get_character_from_url(url):
   return url.split('/')[-1].split('.')[0]
 
-def get_players_for_tournament_page(soup, player_map):
+def get_event_id_from_url(url):
+  return int(url.split('/')[-2].split('.')[-1])
+
+def get_players_for_event_page(event_id, soup, player_map):
   '''
-  Parse page of tournament and build {swf name -> PlayerInfo} map
+  Parse page of event and build {swf name -> PlayerInfo} map
   '''
   table = soup.find("table", class_=get_table_class())
   rows = table.find_all("tr", class_=get_row_class())
 
   num_tags_found = 0
-  num_new_tags_found = 0
 
   for row in rows:
     rank_td, tag_td, characters_td, earnings_td, points_td, username_td = row.find_all("td")
@@ -66,27 +68,27 @@ def get_players_for_tournament_page(soup, player_map):
     characters = [get_character_from_url(img['src']) for img in characters_td.find_all('img')]
 
     if username in player_map:
-      player_map[username].add_tag(tag).add_characters(characters)
+      player_map[username].add_tag(event_id, tag).add_characters(characters)
     else:
-      num_new_tags_found += 1
-      player_map[username] = PlayerInfo(user_id, username).add_tag(tag).add_characters(characters)
+      player_map[username] = PlayerInfo(user_id, username).add_tag(event_id, tag).add_characters(characters)
 
-  print "Tags found: {}, new tags found: {}".format(str(num_tags_found), str(num_new_tags_found))
+  print "Tags found: {}".format(str(num_tags_found))
 
-def get_players_for_tournament(tournament_url, player_map):
+def get_players_for_event(event_url, player_map):
   '''
-  Parse all pages for tournament
+  Parse all pages for event
   '''
-  page_url = tournament_url
+  page_url = event_url
   while True:
     soup = get_soup(page_url)
+    event_id = get_event_id_from_url(page_url)
 
     query_params = {k: v for k,v in [t.split('=') for t in page_url.split('?')[-1].split('&')]}
     page = query_params['page'] if 'page' in query_params else '1'
-    tournament_name = soup.find("div", class_="titleBar").text.strip()
-    print "Processing {} page {}".format(tournament_name, page)
+    event_name = soup.find("div", class_="titleBar").text.strip()
+    print "Processing {} page {}".format(event_name, page)
 
-    get_players_for_tournament_page(soup, player_map)
+    get_players_for_event_page(event_id, soup, player_map)
 
     navdiv = soup.find("div", class_="PageNav")
     if navdiv is None: # only 1 page
