@@ -47,3 +47,16 @@ CREATE TABLE `player_tag_map` (
   KEY `tag` (`tag`),
   UNIQUE KEY `player_tag_map_event` (`player_id`, `event_id`)
 ) ENGINE=InnoDB CHARACTER SET=utf8;
+
+-- "Scoring" of possible tags a player might use ("related to the player").
+-- Computed from `player_tag_map` (see db.py), but we precompute it for lookup efficiency
+CREATE TABLE `player_related_tags` (
+  `player_id` int(11) NOT NULL,
+  `related_tag` varchar(255) NOT NULL,
+  `score` int(11) NOT NULL,
+  CONSTRAINT `player_related_tags_ibfk1`
+    FOREIGN KEY (`player_id`) REFERENCES `players` (`id`) ON DELETE CASCADE,
+  KEY `related_tag` (`related_tag`),
+  UNIQUE KEY `player_related_tag` (`player_id`, `related_tag`)
+) ENGINE=InnoDB CHARACTER SET=utf8;
+
