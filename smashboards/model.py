@@ -1,3 +1,5 @@
+from datetime import datetime, date
+
 class PlayerInfo(object):
   def __init__(self, swf_player_id, swf_player_name):
     if swf_player_id is None or not isinstance(swf_player_id, int) or swf_player_id < 0:
@@ -32,7 +34,7 @@ class PlayerInfo(object):
     return sorted(self.tags.values())
 
   def add_character(self, character):
-    if character is None or not isinstance(character, str) or len(character) == 0:
+    if character is None or not isinstance(character, unicode) or len(character) == 0:
       raise ValueError("character name should be nonempty unicode string")
     self.characters.add(character)
     return self
@@ -63,21 +65,32 @@ class PlayerInfo(object):
       ] + sorted(self.tags, key=lambda t: len(t))
 
 class EventInfo(object):
-    def __init__(self, swf_event_id, swf_event_name, category, date_str):
+    def __init__(self, swf_event_id, swf_event_name, category, date_or_date_str):
         if swf_event_id is None or not isinstance(swf_event_id, int) or swf_event_id < 0:
           raise ValueError("swf event id should be nonnegative int")
         self.swf_event_id = swf_event_id
         if swf_event_name is None or not isinstance(swf_event_name, unicode) or len(swf_event_name) == 0:
           raise ValueError("swf event name should be nonempty unicode string")
         self.swf_event_name = swf_event_name
-        if category is None or not isinstance(category, str) or len(category) == 0:
-          raise ValueError("event category should be nonempty string")
+        if category is None or not isinstance(category, unicode) or len(category) == 0:
+          raise ValueError("event category should be nonempty unicode string")
         self.category = category
 
-        if date_str is None or not isinstance(date_str, str) or len(date_str) == 0:
-          raise ValueError("event date should be passed in as nonempty string")
-        try:
-            self.date = date_str.strptime("%Y-%b-%d")
-        except ValueError:
-            raise ValueError("event date {} could not be parsed".format(date_str))
+        if date_or_date_str is None:
+          raise ValueError("event date should not be None")
+        elif isinstance(date_or_date_str, date):
+          self.date = date_or_date_str
+        elif isinstance(date_or_date_str, unicode):
+          if len(date_or_date_str) == 0:
+            raise ValueError("event date should be passed in as nonempty unicode string")
+
+          try:
+              self.date = datetime.strptime(date_or_date_str, "%Y-%b-%d").date()
+          except ValueError:
+              raise ValueError("event date {} could not be parsed".format(date_or_date_str))
+        else:
+          raise ValueError("event date was not a string or date")
+
+    def __str__(self):
+      return "swf_event_id: {}, swf_event_name: {}, category: {}, date: {}".format(self.swf_event_id, self.swf_event_name, self.category, self.date)
 
