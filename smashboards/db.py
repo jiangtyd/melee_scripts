@@ -119,25 +119,25 @@ class PlayerRepository(Repository):
       + [build_in_clause_str(n)]
     ) + ';'
 
-  def get_player(self, swf_player_id):
-    return self.get_players([swf_player_id])[swf_player_id]
+  def get_player_by_id(self, swf_player_id):
+    return self.get_players_by_ids([swf_player_id])[swf_player_id]
 
-  def get_players(self, swf_player_id_list):
+  def get_players_by_ids(self, swf_player_id_list):
     ret_players = {}
 
     self.execute_statement(self.__select_player_by_id_statement, swf_player_id_list)
     for (swf_player_id, swf_player_name) in self.cursor:
-      print ">>> select from players >>>", swf_player_id, swf_player_name
+      # print ">>> select from players >>>", swf_player_id, swf_player_name
       ret_players[swf_player_id] = PlayerInfo(swf_player_id, swf_player_name)
 
     self.execute_statement(self.__select_player_tags_by_id_statement, swf_player_id_list)
     for (swf_player_id, tag, swf_event_id) in self.cursor:
-      print ">>> select from player_tag_map >>>", swf_player_id, tag, swf_event_id
+      # print ">>> select from player_tag_map >>>", swf_player_id, tag, swf_event_id
       ret_players[swf_player_id].add_tag(swf_event_id, tag)
 
     self.execute_statement(self.__select_player_characters_by_id_statement, swf_player_id_list)
     for (swf_player_id, character) in self.cursor:
-      print ">>> select from characters >>>", swf_player_id, character
+      # print ">>> select from characters >>>", swf_player_id, character
       ret_players[swf_player_id].add_character(character)
 
     return ret_players
@@ -175,15 +175,15 @@ class EventRepository(Repository):
       + [build_in_clause_str(n)]
     ) + ';'
 
-  def get_event(self, swf_event_id):
-    return self.get_events([swf_event_id])[swf_event_id]
+  def get_event_by_id(self, swf_event_id):
+    return self.get_events_by_ids([swf_event_id])[swf_event_id]
 
-  def get_events(self, swf_event_id_list):
+  def get_events_by_ids(self, swf_event_id_list):
     ret_events = {}
 
     self.execute_statement(self.__select_event_by_id_statement, swf_event_id_list)
     for (swf_event_id, swf_event_name, category, date) in self.cursor:
-      print ">>> select from events >>>", swf_event_id, swf_event_name, category, date
+      # print ">>> select from events >>>", swf_event_id, swf_event_name, category, date
       ret_events[swf_event_id] = EventInfo(swf_event_id, swf_event_name, category, date)
 
     return ret_events
