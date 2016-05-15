@@ -230,12 +230,15 @@ def scrape_events(event_list_url=EVENTS_URL, page_limit=0, rescrape=False):
       event_urls = [url for url in event_urls if get_event_id_from_url(url) not in existing_events]
 
     for event_url in event_urls:
-      event_uploader_name, event_info, player_list = process_event(event_url)
-      # add uploader to db
-      player_repo.save_player(PlayerInfo(event_info.uploader_id, event_uploader_name))
-      event_repo.save_event(event_info)
-      if len(player_list) > 0:
-        player_repo.save_players_full(player_list)
+      try:
+        event_uploader_name, event_info, player_list = process_event(event_url)
+        # add uploader to db
+        player_repo.save_player(PlayerInfo(event_info.uploader_id, event_uploader_name))
+        event_repo.save_event(event_info)
+        if len(player_list) > 0:
+          player_repo.save_players_full(player_list)
+      except:
+        print "Error processing {}, skipping".format(event_url)
 
     page_url = get_next_page_url(soup)
 
