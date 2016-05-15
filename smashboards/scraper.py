@@ -74,19 +74,78 @@ def get_players_for_event_page(event_id, soup, player_map):
 
   print "Tags found: {}".format(str(num_tags_found))
 
-def get_players_for_event(event_url, player_map):
+def parse_with_expected_prefix(line, prefix, thing_to_parse):
+  if line.find(prefix) < 0:
+    raise ValueError("Error parsing {} from line:\n{}\n".format(thing_to_parse, line))
+  return line[len(prefix):].strip()
+
+def parse_event_host(line):
+  return parse_with_expected_prefix(line, 'Hosted By ', 'event host')
+
+def parse_event_location(line):
+  return parse_with_expected_prefix(line, '@ ', 'event location')
+
+def parse_event_info(event_id, soup):
+  event_name = soup.find("div", class_="titleBar").text.strip()
+  detail_box = soup.find("div", id="eventDetails").find_all("div")[1]
+
+  detail_box_text = detail_box.text.split('\n')
+  ''' example value:
+    [u'',
+     u'Hosted By Atlas',
+     u'Thursday, May 12, 2016 08:00 PM',
+     u'@ Game Underground',
+     u'',
+     u'Melee',
+     u'Double Elimination - Local',
+     u'34 Players - 170 Points - $0 Entry Fee',
+     u'',
+     u'Posted By The-Jester',
+     u'',
+     u'',
+     u'',
+     u'']
   '''
-  Parse all pages for event
+  event_host = parse_event_host(detail_box_text[1])
+  event_date = detail_box_text[2]
+  event_location = parse_event_location(detail_box_text[3])
+
+  detail_box_links = detail_box.find_all("a")
+  ''' example value:
+    [<a href="rankings/melee/league/events">Melee</a>,
+     <a href="rankings/local.2/category">Local</a>,
+     <a href="members/the-jester.292125/">The-Jester</a>]
+  '''
+  # sanity check for now, may support other games later
+  if detail_box_links[0].text != 'Melee':
+    raise ValueError("Expected first link to be game")
+  if detail_box_links[1]['href'].split('/')[-1] != 'category':
+    raise ValueError("Expected second link to be event category")
+  if detail_box_links[2]['href'].split('/')[0] != 'members':
+    raise ValueError("Expected third link to be to a user")
+
+  event_category = detail_box_links[1].text
+  event_uploader_id = int(detail_box_links[2]['href'].split('/')[1].split('.')[-1])
+
+  return EventInfo(event_id, event_name, event_category, event_date, event_host, event_location, event_uploader_id)
+
+def process_event(event_url, player_map):
+  '''
+  Parse all pages for event. We assume event_url is the first page of the event's results.
   '''
   page_url = event_url
+  event_info = None
+  event_id = get_event_id_from_url(page_url)
+
   while True:
     soup = get_soup(page_url)
-    event_id = get_event_id_from_url(page_url)
+
+    if not event_info:
+      event_info = parse_event_info(event_id, soup)
 
     query_params = {k: v for k,v in [t.split('=') for t in page_url.split('?')[-1].split('&')]}
     page = query_params['page'] if 'page' in query_params else '1'
-    event_name = soup.find("div", class_="titleBar").text.strip()
-    print "Processing {} page {}".format(event_name, page)
+    print "Processing {} page {}".format(event_info.swf_event_name, page)
 
     get_players_for_event_page(event_id, soup, player_map)
 
@@ -99,6 +158,8 @@ def get_players_for_event(event_url, player_map):
       break
 
     page_url = path.join(get_base_url(), last_button['href'])
+
+  return event_info
 
 def main():
   pass
