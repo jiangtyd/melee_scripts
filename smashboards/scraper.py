@@ -8,6 +8,7 @@ import os.path as path
 import shutil
 import pickle
 from urlparse import urlparse, parse_qs
+import argparse
 
 from model import PlayerInfo, EventInfo
 import db
@@ -239,11 +240,17 @@ def scrape_events(event_list_url=EVENTS_URL, page_limit=0, rescrape=False):
     page_url = get_next_page_url(soup)
 
 def main():
-  pass
+  parser = argparse.ArgumentParser(prog=sys.argv[0], description='Scrape Smashboards brackets into a mysql db.')
+  parser.add_argument('-l', '--limit', default=0)
+  parser.add_argument('-r', '--rescrape', action='store_true', default=False)
+  args = vars(parser.parse_args(sys.argv[1:]))
+  page_limit = int(args['limit'])
+  rescrape = args['rescrape']
 
-def print_usage_and_exit():
-  # print "Usage: " + sys.argv[0] + " {} {} []"
-  exit(1)
+  print 'limit = ', page_limit
+  print 'rescrape = ', rescrape
+
+  scrape_events(page_limit=page_limit, rescrape=rescrape)
 
 if __name__ == "__main__":
   main()
