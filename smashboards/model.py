@@ -107,7 +107,7 @@ class EventInfo(object):
     elif isinstance(date_or_date_str, date):
       self.date = date_or_date_str
     elif isinstance(date_or_date_str, unicode) or isinstance(date_or_date_str, str):
-      self.date = parse_date_str(date_str)
+      self.date = parse_date_str(date_or_date_str)
 
     def __str__(self):
       return "swf_event_id: {}, swf_event_name: {}, category: {}, date: {}, host: {}, location: {}, uploader id: {}".format(self.swf_event_id, self.swf_event_name, self.category, self.date, self.host, self.location, self.uploader_id)
@@ -115,21 +115,21 @@ class EventInfo(object):
 def parse_date_str(date_str):
   ret_date = None
 
-  if len(date_or_date_str) == 0:
+  if len(date_str) == 0:
     raise ValueError("event date string should be nonempty")
 
   try: # format on brackets page
-    ret_date = datetime.strptime(date_or_date_str, "%Y-%b-%d").date()
+    ret_date = datetime.strptime(date_str, "%Y-%b-%d").date()
   except ValueError:
     pass
 
   try: # format on an individual bracket's page
-    ret_date = datetime.strptime(date_or_date_str, "%A, %B %d, %Y %I:%M %p").date()
+    ret_date = datetime.strptime(date_str, "%A, %B %d, %Y %I:%M %p").date()
   except ValueError:
     pass
 
   if ret_date == None: # neither succeeded
-    raise ValueError("event date {} could not be parsed".format(date_or_date_str))
+    raise ValueError("event date {} could not be parsed".format(date_str))
   else:
     return ret_date
 
