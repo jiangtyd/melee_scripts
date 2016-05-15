@@ -150,13 +150,17 @@ class EventRepository(Repository):
   def __insert_event_statement(self, n):
     assert isinstance(n, int) and n > 0
     return ' '.join(
-      ['INSERT INTO `events` (`id`, `event_name`, `category`, `event_date`) VALUES']
-      + [build_values_str(4, n)]
+        ['INSERT INTO `events`']
+        + ['(`id`, `event_name`, `category`, `event_date`, `host`, `location`, `uploader_id`) VALUES']
+      + [build_values_str(7, n)]
       # if a SWF user changes his/her username
       + ['ON DUPLICATE KEY UPDATE']
       + ['`event_name`=VALUES(`event_name`),']
       + ['`category`=VALUES(`category`),']
       + ['`event_date`=VALUES(`event_date`)']
+      + ['`host`=VALUES(`host`)']
+      + ['`location`=VALUES(`location`)']
+      + ['`uploader_id`=VALUES(`uploader_id`)']
     ) + ';'
 
   def save_events(self, events):
@@ -170,7 +174,7 @@ class EventRepository(Repository):
   def __select_event_by_id_statement(self, n):
     assert isinstance(n, int) and n > 0
     return ' '.join(
-      ['SELECT `id`, `event_name`, `category`, `event_date` FROM `events`']
+      ['SELECT `id`, `event_name`, `category`, `event_date`, `host`, `location`, `uploader_id` FROM `events`']
       + ['WHERE `id` IN']
       + [build_in_clause_str(n)]
     ) + ';'
@@ -182,8 +186,8 @@ class EventRepository(Repository):
     ret_events = {}
 
     self.execute_statement(self.__select_event_by_id_statement, swf_event_id_list)
-    for (swf_event_id, swf_event_name, category, date) in self.cursor:
+    for (swf_event_id, swf_event_name, category, date, host, location, uploader_id) in self.cursor:
       # print ">>> select from events >>>", swf_event_id, swf_event_name, category, date
-      ret_events[swf_event_id] = EventInfo(swf_event_id, swf_event_name, category, date)
+      ret_events[swf_event_id] = EventInfo(swf_event_id, swf_event_name, category, date, host, location, uploader_id)
 
     return ret_events

@@ -1,25 +1,29 @@
 from datetime import datetime, date
 
+def check_nonnegative_int(var, var_name):
+  if var is None or not isinstance(var, int) or var < 0:
+      raise ValueError("{} should be nonnegative int".format(var_name))
+
+def check_nonempty_string(var, var_name):
+  if var is None or (not isinstance(var, unicode) and not isinstance(var, str)) or len(var) == 0:
+      raise ValueError("{} should be nonempty string or unicode string".format(var_name))
+
 class PlayerInfo(object):
   def __init__(self, swf_player_id, swf_player_name):
-    if swf_player_id is None or not isinstance(swf_player_id, int) or swf_player_id < 0:
-      raise ValueError("swf player id should be nonnegative int")
+    check_nonnegative_int(swf_player_id, "swf player id")
     self.swf_player_id = swf_player_id
     self.set_swf_player_name(swf_player_name)
     self.tags = dict()
     self.characters = set()
 
   def set_swf_player_name(self, swf_player_name):
-    if swf_player_name is None or not isinstance(swf_player_name, unicode) or len(swf_player_name) == 0:
-      raise ValueError("swf player name should be nonempty unicode string")
-    self.swf_player_name = swf_player_name
+    check_nonempty_string(swf_player_name, "swf player name")
+    self.swf_player_name = unicode(swf_player_name)
     return self
 
   def add_tag(self, event_id, tag):
-    if tag is None or not isinstance(tag, unicode) or len(tag) == 0:
-      raise ValueError("tag should be nonempty unicode string")
-    if event_id is None or not isinstance(event_id, int) or event_id < 0:
-      raise ValueError("swf event id should be nonnegative int")
+    check_nonempty_string(tag, "tag")
+    check_nonnegative_int(event_id, "swf event id")
     self.tags[event_id] = tag
     return self
 
@@ -33,9 +37,20 @@ class PlayerInfo(object):
   def get_tags_sorted(self):
     return sorted(self.tags.values())
 
+  melee_characters = set([
+    'fox', 'falco', 'marth', 'sheik',
+    'falcon', 'peach', 'jigglypuff', 'ic',
+    'samus', 'ganon', 'luigi', 'drmario',
+    'link', 'pikachu', 'yoshi', 'dk',
+    'roy', 'mario', 'zelda', 'gamewatch',
+    'ylink', 'kirby', 'ness', 'bowser',
+    'mewtwo', 'pichu'])
+
   def add_character(self, character):
-    if character is None or not isinstance(character, unicode) or len(character) == 0:
-      raise ValueError("character name should be nonempty unicode string")
+    check_nonempty_string(character, "character name")
+    if character not in PlayerInfo.melee_characters:
+      raise ValueError("'{}' is not a valid melee character".format(character))
+
     self.characters.add(character)
     return self
 
@@ -65,26 +80,37 @@ class PlayerInfo(object):
       ] + sorted(self.tags, key=lambda t: len(t))
 
 class EventInfo(object):
-    def __init__(self, swf_event_id, swf_event_name, category, date_or_date_str):
-        if swf_event_id is None or not isinstance(swf_event_id, int) or swf_event_id < 0:
-          raise ValueError("swf event id should be nonnegative int")
-        self.swf_event_id = swf_event_id
-        if swf_event_name is None or not isinstance(swf_event_name, unicode) or len(swf_event_name) == 0:
-          raise ValueError("swf event name should be nonempty unicode string")
-        self.swf_event_name = swf_event_name
-        if category is None or not isinstance(category, unicode) or len(category) == 0:
-          raise ValueError("event category should be nonempty unicode string")
-        self.category = category
+  event_categories = set([
+    'Premier', 'Global', 'International',
+    'National', 'Regional', 'Local',
+    'Large Local', 'Pools', 'Teams',
+    'Unranked', 'Online'])
 
-        if date_or_date_str is None:
-          raise ValueError("event date should not be None")
-        elif isinstance(date_or_date_str, date):
-          self.date = date_or_date_str
-        elif isinstance(date_or_date_str, unicode) or isinstance(date_or_date_str, str):
-          self.date = parse_date_str(date_str)
+  def __init__(self, swf_event_id, swf_event_name, category, date_or_date_str, host, location, uploader_id):
+    check_nonnegative_int(swf_event_id, "swf event id")
+    check_nonempty_string(swf_event_name, "swf event name")
+    check_nonempty_string(category, "event category")
+    if category not in EventInfo.event_categories:
+      raise ValueError("'{}' is not a valid swf event category".format(category))
+    check_nonempty_string(host, "event host")
+    check_nonempty_string(location, "event location")
+    check_nonnegative_int(uploader_id, "event uploader id")
+    self.swf_event_id = swf_event_id
+    self.swf_event_name = unicode(swf_event_name)
+    self.category = category
+    self.host = unicode(host)
+    self.location = unicode(location)
+    self.uploader_id = uploader_id
+
+    if date_or_date_str is None:
+      raise ValueError("event date should not be None")
+    elif isinstance(date_or_date_str, date):
+      self.date = date_or_date_str
+    elif isinstance(date_or_date_str, unicode) or isinstance(date_or_date_str, str):
+      self.date = parse_date_str(date_str)
 
     def __str__(self):
-      return "swf_event_id: {}, swf_event_name: {}, category: {}, date: {}".format(self.swf_event_id, self.swf_event_name, self.category, self.date)
+      return "swf_event_id: {}, swf_event_name: {}, category: {}, date: {}, host: {}, location: {}, uploader id: {}".format(self.swf_event_id, self.swf_event_name, self.category, self.date, self.host, self.location, self.uploader_id)
 
 def parse_date_str(date_str):
   ret_date = None

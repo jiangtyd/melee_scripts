@@ -29,10 +29,17 @@ CREATE TABLE `events` (
     'National', 'Regional', 'Local',
     'Large Local', 'Pools', 'Teams',
     'Unranked', 'Online') NOT NULL,
-  `event_date` DATE NOT NULL,
+  `event_date` date NOT NULL,
+  `host` varchar(255) NOT NULL,
+  `location` varchar(255) NOT NULL,
+  `uploader_id` int(11) NOT NULL,
   KEY `event_name` (`event_name`),
-  KEY `category` (`category`),
-  KEY `event_date` (`event_date`)
+  KEY `event_category` (`category`),
+  KEY `event_date` (`event_date`),
+  KEY `event_host` (`host`),
+  KEY `event_location` (`location`),
+  CONSTRAINT `events_ibfk1`
+    FOREIGN KEY(`uploader_id`) REFERENCES `players` (`id`) ON DELETE RESTRICT
 ) ENGINE=InnoDB CHARACTER SET=utf8;
 
 -- Mapping between players, tags used in SWF tournaments, and the event the tag was used at
