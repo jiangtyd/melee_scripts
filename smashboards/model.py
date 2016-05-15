@@ -109,8 +109,8 @@ class EventInfo(object):
     elif isinstance(date_or_date_str, unicode) or isinstance(date_or_date_str, str):
       self.date = parse_date_str(date_or_date_str)
 
-    def __str__(self):
-      return "swf_event_id: {}, swf_event_name: {}, category: {}, date: {}, host: {}, location: {}, uploader id: {}".format(self.swf_event_id, self.swf_event_name, self.category, self.date, self.host, self.location, self.uploader_id)
+  def __str__(self):
+    return "swf_event_id: {}, swf_event_name: {}, category: {}, date: {}, host: {}, location: {}, uploader id: {}".format(self.swf_event_id, self.swf_event_name, self.category, self.date, self.host, self.location, self.uploader_id)
 
 def parse_date_str(date_str):
   ret_date = None
