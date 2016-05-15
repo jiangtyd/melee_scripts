@@ -78,6 +78,9 @@ class PlayerRepository(Repository):
       + [build_values_str(2, n)]
     ) + ';'
 
+  def save_player(self, player):
+    self.save_players([player])
+
   # just save a list of swf users
   def save_players(self, players):
     check_list_type(players, PlayerInfo)
@@ -87,6 +90,9 @@ class PlayerRepository(Repository):
     self.execute_statement(self.__insert_player_statement, player_id_name)
 
     self.cnx.commit()
+
+  def save_player_full(self, player):
+    self.save_players_full([player])
 
   # players = list of PlayerInfo
   def save_players_full(self, players):
@@ -99,12 +105,14 @@ class PlayerRepository(Repository):
     player_tags = []
     for player in players:
       player_tags.extend([(player.swf_player_id, player.tags[event_id], event_id) for event_id in player.tags])
-    self.execute_statement(self.__insert_player_tag_map_statement, player_tags)
+    if len(player_tags) > 0:
+      self.execute_statement(self.__insert_player_tag_map_statement, player_tags)
 
     player_characters = []
     for player in players:
       player_characters.extend([(player.swf_player_id, character) for character in player.characters])
-    self.execute_statement(self.__insert_player_character_statement, player_characters)
+    if len(player_characters) > 0:
+      self.execute_statement(self.__insert_player_character_statement, player_characters)
 
     self.cnx.commit()
 
@@ -188,6 +196,9 @@ class EventRepository(Repository):
       + ['`location`=VALUES(`location`),']
       + ['`uploader_id`=VALUES(`uploader_id`)']
     ) + ';'
+
+  def save_event(self, event):
+    self.save_events([event])
 
   def save_events(self, events):
     check_list_type(events, EventInfo)
