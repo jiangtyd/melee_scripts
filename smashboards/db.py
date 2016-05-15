@@ -40,12 +40,12 @@ class Repository(object):
   def execute_statement(self, build_func, data):
     if len(data) == 0:
       raise ValueError("data should be nonempty")
-    print "build_func(len(data)) =", build_func(len(data))
+    # print "build_func(len(data)) =", build_func(len(data))
     if isinstance(data[0], list) or isinstance(data[0], tuple):
       flattened_data = list(chain.from_iterable(data))
     else:
       flattened_data = data
-    print "flattened data =", flattened_data
+    # print "flattened data =", flattened_data
     self.cursor.execute(build_func(len(data)), flattened_data)
 
 class PlayerRepository(Repository):
