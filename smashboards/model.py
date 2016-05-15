@@ -71,8 +71,11 @@ class PlayerInfo(object):
     return sorted(self.characters)
 
   def __str__(self):
-    return "swf_player_id: {}, swf_player_name: {}, tags: {}, characters: {}".format(
-        self.swf_player_id, self.swf_player_name, str(self.tags), str(self.characters))
+    return unicode(self).encode('utf-8')
+
+  def __unicode__(self):
+    return u"swf_player_id: {}, swf_player_name: {}, tags: {}, characters: {}".format(
+        self.swf_player_id, self.swf_player_name, unicode(self.tags), unicode(self.characters))
 
   def to_csv_row(self):
     return [
@@ -110,7 +113,10 @@ class EventInfo(object):
       self.date = parse_date_str(date_or_date_str)
 
   def __str__(self):
-    return "swf_event_id: {}, swf_event_name: {}, category: {}, date: {}, host: {}, location: {}, uploader id: {}".format(self.swf_event_id, self.swf_event_name, self.category, self.date, self.host, self.location, self.uploader_id)
+    return unicode(self).encode('utf-8')
+
+  def __unicode__(self):
+    return u"swf_event_id: {}, swf_event_name: {}, category: {}, date: {}, host: {}, location: {}, uploader id: {}".format(self.swf_event_id, self.swf_event_name, self.category, self.date, self.host, self.location, self.uploader_id)
 
 def parse_date_str(date_str):
   ret_date = None
