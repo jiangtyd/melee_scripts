@@ -29,6 +29,9 @@ def build_values_str(num_cols, num_rows):
 def build_in_clause_str(num_in):
   return build_paren_s_list(num_in)
 
+def build_regexp_str(n):
+  return ' OR '.join(["REGEXP '%s'" for i in xrange(n)])
+
 class Repository(object):
   def __init__(self, cnx):
     self.cnx = cnx
@@ -142,6 +145,19 @@ class PlayerRepository(Repository):
 
     return ret_players
 
+  def __select_player_tags_like_tag_statement(self, n):
+    return ' '.join(
+      ['SELECT `player_id`, `tag`, `event_id` FROM `player_tag_map`']
+      + ['WHERE `tag`']
+      + build_regexp_str(n)
+    ) + ';'
+
+  def get_players_by_similar_tag(self, tag):
+    return self.get_players_by_similar_tags([tag])[tag]
+
+  def get_players_by_similar_tags(self, tags):
+    self.execute_statement(self.__select_player_tags_by_id_statement, swf_player_id_list)
+    pass
 
 class EventRepository(Repository):
   def __init__(self, cnx):
