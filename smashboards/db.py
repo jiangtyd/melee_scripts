@@ -78,8 +78,18 @@ class PlayerRepository(Repository):
       + [build_values_str(2, n)]
     ) + ';'
 
-  # players = list of PlayerInfo
+  # just save a list of swf users
   def save_players(self, players):
+    check_list_type(players, PlayerInfo)
+
+    player_id_name = [(player.swf_player_id, player.swf_player_name)
+      for player in players]
+    self.execute_statement(self.__insert_player_statement, player_id_name)
+
+    self.cnx.commit()
+
+  # players = list of PlayerInfo
+  def save_players_full(self, players):
     check_list_type(players, PlayerInfo)
 
     player_id_name = [(player.swf_player_id, player.swf_player_name)
@@ -173,16 +183,16 @@ class EventRepository(Repository):
       + ['ON DUPLICATE KEY UPDATE']
       + ['`event_name`=VALUES(`event_name`),']
       + ['`category`=VALUES(`category`),']
-      + ['`event_date`=VALUES(`event_date`)']
-      + ['`host`=VALUES(`host`)']
-      + ['`location`=VALUES(`location`)']
+      + ['`event_date`=VALUES(`event_date`),']
+      + ['`host`=VALUES(`host`),']
+      + ['`location`=VALUES(`location`),']
       + ['`uploader_id`=VALUES(`uploader_id`)']
     ) + ';'
 
   def save_events(self, events):
     check_list_type(events, EventInfo)
 
-    event_info_row = [(event.swf_event_id, event.swf_event_name, event.category, event.date) for event in events]
+    event_info_row = [(event.swf_event_id, event.swf_event_name, event.category, event.date, event.host, event.location, event.uploader_id) for event in events]
     self.execute_statement(self.__insert_event_statement, event_info_row)
 
     self.cnx.commit()
