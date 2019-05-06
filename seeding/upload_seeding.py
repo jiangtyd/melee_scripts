@@ -14,7 +14,18 @@ def import_name_column(name_column):
 def import_tier_column(tier_column):
     return tier_column.splitlines()
 
+def import_id_column(id_column):
+    return id_column.splitlines()
+
 def get_id_skill_json(names, skills, name_id_map):
     id_skill_pairs = zip([name_id_map[name] for name in names], skills)
     return str([{"entrantId": i[0], "skill": int(i[1])} for i in id_skill_pairs]).replace("'", '"')
+
+def get_id_skill_json_3(names, short_names, skills, name_id_map):
+    id_skill_pairs = zip([name_id_map[name] if name in name_id_map else name_id_map[short_name] for name, short_name in zip(names, short_names)], skills)
+    return str([{"entrantId": i[0], "skill": int(i[1])} for i in id_skill_pairs]).replace("'", '"')
+
+def get_id_skill_json_2(ids, skills):
+    id_skill_pairs = zip(ids, skills)
+    return str([{"entrantId": int(i[0]), "skill": int(i[1])} for i in id_skill_pairs]).replace("'", '"')
 
