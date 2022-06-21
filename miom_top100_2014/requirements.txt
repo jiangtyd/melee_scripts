@@ -1,4 +1,4 @@
 beautifulsoup4==4.3.2
 requests==2.3.0
-numpy==1.9.1
+numpy==1.22.0
 matplotlib==1.4.2
